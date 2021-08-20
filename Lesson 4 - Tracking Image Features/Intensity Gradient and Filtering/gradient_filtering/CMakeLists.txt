@@ -9,6 +9,10 @@ project(camera_fusion)
 
 find_package(OpenCV 4.1 REQUIRED)
 
+message("OpenCV_INCLUDE_DIRS = ${OpenCV_INCLUDE_DIRS}")
+message("OpenCV_LIBRARY_DIRS = ${OpenCV_LIBRARY_DIRS}")
+message("OpenCV_DEFINITIONS = ${OpenCV_DEFINITIONS}")
+
 include_directories(${OpenCV_INCLUDE_DIRS})
 link_directories(${OpenCV_LIBRARY_DIRS})
 add_definitions(${OpenCV_DEFINITIONS})
@@ -22,3 +26,7 @@ target_link_libraries (gradient_sobel ${OpenCV_LIBRARIES})
 
 add_executable (magnitude_sobel src/magnitude_sobel.cpp)
 target_link_libraries (magnitude_sobel ${OpenCV_LIBRARIES})
+
+
+add_executable (smoothing src/smoothing.cpp)
+target_link_libraries (smoothing ${OpenCV_LIBRARIES})
