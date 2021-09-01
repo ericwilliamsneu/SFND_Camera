@@ -14,7 +14,7 @@ void matchDescriptors(cv::Mat &imgSource, cv::Mat &imgRef, vector<cv::KeyPoint> 
 {
 
     // configure matcher
-    bool crossCheck = true;
+    bool crossCheck = false;
     cv::Ptr<cv::DescriptorMatcher> matcher;
 
     if (matcherType.compare("MAT_BF") == 0)
@@ -48,17 +48,10 @@ void matchDescriptors(cv::Mat &imgSource, cv::Mat &imgRef, vector<cv::KeyPoint> 
     else if (selectorType.compare("SEL_KNN") == 0)
     { // k nearest neighbors (k=2)
 
-        cout << "Source type: " << descSource.type() << endl;
-        if (descSource.type() != CV_32F)
-        { // OpenCV bug workaround : convert binary descriptors to floating point due to a bug in current OpenCV implementation
-            descSource.convertTo(descSource, CV_32F);
-            descRef.convertTo(descRef, CV_32F);
-        }
-
         // TODO : implement k-nearest-neighbor matching
         vector<vector<cv::DMatch>> knn_matches;
         matcher->knnMatch(descSource,descRef,knn_matches,2);
-        cout << " (KNN) with n=" << knn_matches.size() << "matches." << endl;
+        cout << " (KNN) with n=" << knn_matches.size() << " matches " << endl;
 
         // TODO : filter matches using descriptor distance ratio test
     }
@@ -90,6 +83,6 @@ int main()
     vector<cv::DMatch> matches;
     string matcherType = "MAT_BF"; 
     string descriptorType = "DES_BINARY"; 
-    string selectorType = "SEL_KNN"; 
+    string selectorType = "SEL_NN"; 
     matchDescriptors(imgSource, imgRef, kptsSource, kptsRef, descSource, descRef, matches, descriptorType, matcherType, selectorType);
 }
